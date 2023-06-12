@@ -19,18 +19,14 @@ class TaxPayer:
 
     # returns the path of an optional profile picture that users can set        
     def get_prof_picture(self, path=None):
-        # setting a profile picture is optional
-        if not path:
-            pass
-        
         # defends against path traversal attacks
         if path.startswith('/') or path.startswith('..'):
             return None
-        
+
         # builds path
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prof_picture_path = os.path.normpath(os.path.join(base_dir, path))
-    
+
         with open(prof_picture_path, 'rb') as pic:
             picture = bytearray(pic.read())
 

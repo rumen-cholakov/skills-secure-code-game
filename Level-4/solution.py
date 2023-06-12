@@ -4,7 +4,7 @@ import sqlite3
 # and delete all users from the database.
 con = sqlite3.connect('users.db')
 user_input = "Mary'); DROP TABLE Users;--"
-sql_stmt = "INSERT INTO Users (user) VALUES ('" + user_input + "');"
+sql_stmt = f"INSERT INTO Users (user) VALUES ('{user_input}');"
 con.executescript(sql_stmt)
 
 # Secure through Parameterized Statements

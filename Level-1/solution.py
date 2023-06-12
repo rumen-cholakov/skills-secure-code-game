@@ -22,12 +22,12 @@ def validorder(order):
             if net > MAX_TOTAL or net < -1*MAX_TOTAL:
                 return("Total amount exceeded")
         else:
-            return("Invalid item type: %s" % item.type)
- 
+            return f"Invalid item type: {item.type}"
+
     if net != 0:
         return("Order ID: %s - Payment imbalance: $%0.2f" % (order.id, net))
     else:
-        return("Order ID: %s - Full payment received!" % order.id)
+        return f"Order ID: {order.id} - Full payment received!"
 
 '''
 A floating-point underflow vulnerability.
