@@ -3,7 +3,7 @@ import sqlite3
 # Vulnerable
 con = sqlite3.connect('users.db')
 user_input = "Mary"
-sql_stmt = "INSERT INTO Users (user) VALUES ('" + user_input + "');"
+sql_stmt = f"INSERT INTO Users (user) VALUES ('{user_input}');"
 con.executescript(sql_stmt)
 
 """

@@ -76,18 +76,18 @@ class DB_CRUD_ops(object):
             db_path = os.path.join(path, 'level-4.db')
             db_con = con.create_connection(db_path)
             cur = db_con.cursor() 
-            
+
             res = "[METHOD EXECUTED] get_stock_info\n"
             query = "SELECT * FROM stocks WHERE symbol = '{0}'".format(stock_symbol)
-            res += "[QUERY] " + query + "\n"
-            
+            res += f"[QUERY] {query}" + "\n"
+
             # a block list or restricted characters that should not be presented in user-supplied input
             restricted_chars = ";%&^!#-"
             # checks if input contains characters from the block list
-            has_restricted_char = any([char in query for char in restricted_chars])
+            has_restricted_char = any(char in query for char in restricted_chars)
             # checks if input contains a wrong number of single quotes against SQL injection
             correct_number_of_single_quotes = query.count("'") == 2
-            
+
             # performs the checks for good cyber security and safe software against SQL injection
             if has_restricted_char or not correct_number_of_single_quotes:
                 # in case you want to sanitize user input, please uncomment the following 2 lines
@@ -96,15 +96,15 @@ class DB_CRUD_ops(object):
                 res += "CONFIRM THAT THE ABOVE QUERY IS NOT MALICIOUS TO EXECUTE"
             else:
                 cur.execute(query)
-                
+
                 query_outcome = cur.fetchall()
                 for result in query_outcome:
-                    res += "[RESULT] " + str(result)
+                    res += f"[RESULT] {str(result)}"
             return res
-        
+
         except sqlite3.Error as e:
             print(f"ERROR: {e}")
-            
+
         finally:
             db_con.close()
             
@@ -120,10 +120,10 @@ class DB_CRUD_ops(object):
             db_path = os.path.join(path, 'level-4.db')
             db_con = con.create_connection(db_path)
             cur = db_con.cursor()
-            
+
             res = "[METHOD EXECUTED] get_stock_price\n"
-            query = "SELECT price FROM stocks WHERE symbol = '" + stock_symbol + "'"
-            res += "[QUERY] " + query + "\n"
+            query = f"SELECT price FROM stocks WHERE symbol = '{stock_symbol}'"
+            res += f"[QUERY] {query}" + "\n"
             if ';' in query:
                 res += "[SCRIPT EXECUTION]\n"
                 cur.executescript(query)
@@ -131,12 +131,12 @@ class DB_CRUD_ops(object):
                 cur.execute(query)
                 query_outcome = cur.fetchall()
                 for result in query_outcome:
-                    res += "[RESULT] " + str(result) + "\n"
+                    res += f"[RESULT] {str(result)}" + "\n"
             return res
-                
+
         except sqlite3.Error as e:
             print(f"ERROR: {e}")
-            
+
         finally:
             db_con.close()
 
@@ -150,25 +150,25 @@ class DB_CRUD_ops(object):
             db_path = os.path.join(path, 'level-4.db')
             db_con = con.create_connection(db_path)
             cur = db_con.cursor()
-            
+
             if not isinstance(price, float):
                 raise Exception("ERROR: stock price provided is not a float")
-            
+
             res = "[METHOD EXECUTED] update_stock_price\n"
             # UPDATE stocks SET price = 310.0 WHERE symbol = 'MSFT'
             query = "UPDATE stocks SET price = '%d' WHERE symbol = '%s'" % (price, stock_symbol)
-            res += "[QUERY] " + query + "\n"
-            
+            res += f"[QUERY] {query}" + "\n"
+
             cur.execute(query)
             db_con.commit()
             query_outcome = cur.fetchall()
             for result in query_outcome:
-                res += "[RESULT] " + result
+                res += f"[RESULT] {result}"
             return res
-            
+
         except sqlite3.Error as e:
             print(f"ERROR: {e}")
-            
+
         finally:
             db_con.close()
 
@@ -184,22 +184,22 @@ class DB_CRUD_ops(object):
             db_path = os.path.join(path, 'level-4.db')
             db_con = con.create_connection(db_path)
             cur = db_con.cursor()
-            
+
             res = "[METHOD EXECUTED] exec_multi_query\n"
             for query in filter(None, query.split(';')):
-                res += "[QUERY]" + query + "\n"
+                res += f"[QUERY]{query}" + "\n"
                 query = query.strip()
                 cur.execute(query)
                 db_con.commit()
-                
+
                 query_outcome = cur.fetchall()
                 for result in query_outcome:
-                    res += "[RESULT] " + str(result) + " "
+                    res += f"[RESULT] {str(result)} "
             return res
-            
+
         except sqlite3.Error as e:
             print(f"ERROR: {e}")
-            
+
         finally:
             db_con.close()  
 
@@ -214,9 +214,9 @@ class DB_CRUD_ops(object):
             db_path = os.path.join(path, 'level-4.db')
             db_con = con.create_connection(db_path)
             cur = db_con.cursor()
-            
+
             res = "[METHOD EXECUTED] exec_user_script\n"
-            res += "[QUERY] " + query + "\n"
+            res += f"[QUERY] {query}" + "\n"
             if ';' in query:
                 res += "[SCRIPT EXECUTION]"
                 cur.executescript(query)
@@ -226,11 +226,11 @@ class DB_CRUD_ops(object):
                 db_con.commit()
                 query_outcome = cur.fetchall()
                 for result in query_outcome:
-                    res += "[RESULT] " + str(result)
+                    res += f"[RESULT] {str(result)}"
             return res    
-            
+
         except sqlite3.Error as e:
             print(f"ERROR: {e}")
-            
+
         finally:
             db_con.close()

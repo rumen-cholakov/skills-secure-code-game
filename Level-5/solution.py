@@ -12,7 +12,7 @@ class Random_generator:
     'abcdefghijklmnopqrstuvwxyz'
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     )):
-        return ''.join(secrets.choice(alphabet) for i in range(length))
+        return ''.join(secrets.choice(alphabet) for _ in range(length))
 
     # generates salt using the bcrypt library which is a safe implementation
     def generate_salt(self, rounds=12):
